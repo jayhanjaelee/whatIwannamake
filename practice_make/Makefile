@@ -38,10 +38,7 @@ $(BIN_DIR):
 
 .PHONY: tags clean check
 tags:
-	@# 쉘의 [ -x 경로 ] 명령으로 실제 실행 가능 여부 체크, 실제 파일이 존재하는 경우에만 실행한다.
-	@if [ -x $(CTAGS) ]; then \
-		$(CTAGS) -R --exclude='.*' --exclude=obj --exclude=bin .; \
-	fi
+	$(CTAGS) -R --exclude=obj --exclude=bin .
 
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR) tags
