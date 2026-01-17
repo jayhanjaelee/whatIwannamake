@@ -2,3 +2,7 @@
 **/*.dSYM
 **/bin
 **/build
+**/*.swp
+**/*.txt
+**/obj
+**/tags
