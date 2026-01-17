@@ -28,13 +28,15 @@ int my_toupper(int ch) {
     return ch;
 }
 
-int main(int argc, char *argv[]) {
+int convert_character() {
     char ch;
     while ((ch = getchar()) != EOF) {
-        if (is_lowercase(ch)) {
+        if (is_lowercase(ch))
+        {
             putchar(my_toupper(ch));
         }
-        else if (is_uppercase(ch)) {
+        else if (is_uppercase(ch))
+        {
             putchar(my_tolower(ch));
         }
     }
