@@ -4,12 +4,13 @@
  * @date 2026-01-19 21:01
  */
 
-#include "server.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/socket.h>
+
 #include "server.h"
 
 struct Server server_Constructor(int domain, int port, int service, int protocol, int backlog, u_long interface, void (*launch)(struct Server *server)) {
