@@ -7,3 +7,4 @@
 **/obj
 **/tags
 **/*.o
+clock/raylib
