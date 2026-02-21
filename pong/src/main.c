@@ -14,11 +14,45 @@ int main(void) {
 
     int running = 1;
     SDL_Event event;
+    SDL_Surface *surface = SDL_GetWindowSurface(window);
+    Uint32 color = 0xffffff;
+    SDL_Rect pl1 = (SDL_Rect) { 40, 40, 40, 200 };
+    SDL_FillRect(surface, &pl1, color);
+
+    SDL_Rect pl2 = (SDL_Rect) { 560, 300, 40, 200 };
+    SDL_FillRect(surface, &pl2, color);
+
+    // Game Loop
     while (running) {
-        while (SDL_PollEvent(&event)) {
+        // Event Loop
+        while (SDL_PollEvent(&event))
+        {
             if (event.type == SDL_QUIT)
+            {
                 running = 0;
+            }
+            if (event.type == SDL_KEYDOWN)
+            {
+                switch (event.key.keysym.sym) {
+                    case SDLK_DOWN:
+                        SDL_FillRect(surface, &pl1, 0x000000);
+                        pl1.y += 10;
+                        printf("Key Down\n");
+                        printf("y: %d\n", pl1.y);
+                        SDL_FillRect(surface, &pl1, color);
+                        break;
+                    case SDLK_UP:
+                        SDL_FillRect(surface, &pl1, 0x000000);
+                        pl1.y -= 10;
+                        SDL_FillRect(surface, &pl1, color);
+                        printf("Key Up\n");
+                        break;
+
+                }
+            }
         }
+
+        SDL_UpdateWindowSurface(window);
         SDL_Delay(16);
     }
 

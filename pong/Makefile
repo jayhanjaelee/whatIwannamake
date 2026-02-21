@@ -1,6 +1,6 @@
 CC := clang
-CFLAGS := -Wall -g -O0 -Iinclude
-LDFLAGS = -Llib -lSDL2 -rpath @executable_path/../lib
+CFLAGS := -Wall -g -O0 -I/usr/local/include
+LDFLAGS = -L/usr/local/lib -lSDL2
 LDFLAGS += -framework CoreVideo -framework Cocoa -framework IOKit -framework OpenGL -framework CoreFoundation
 
 BUILDDIR := build

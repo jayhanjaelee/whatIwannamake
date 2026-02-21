@@ -6,7 +6,7 @@
       "-Wall",
       "-g",
       "-O0",
-      "-Iinclude",
+      "-I/usr/local/include",
       "-c",
       "-o",
       "build/objs/main.o",
