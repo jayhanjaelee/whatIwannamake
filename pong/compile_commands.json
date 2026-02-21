@@ -1,0 +1,18 @@
+[
+  {
+    "file": "src/main.c",
+    "arguments": [
+      "clang",
+      "-Wall",
+      "-g",
+      "-O0",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "build/objs/main.o",
+      "src/main.c"
+    ],
+    "directory": "/Users/jay/Desktop/whatIwannamake/pong",
+    "output": "build/objs/main.o"
+  }
+]
