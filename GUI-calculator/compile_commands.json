@@ -1,0 +1,17 @@
+[
+  {
+    "file": "src/main.c",
+    "arguments": [
+      "clang",
+      "-I/usr/local/include",
+      "-o",
+      "build/app",
+      "src/main.c",
+      "-I/usr/local/include",
+      "-Iinclude",
+      "-Wgnu-folding-constant"
+    ],
+    "directory": "/Users/jay/Desktop/gui/sdl3-example",
+    "output": "build/app"
+  }
+]
