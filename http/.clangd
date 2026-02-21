@@ -1,0 +1,6 @@
+If:
+  PathMatch: .*\.c
+
+CompileFlags:
+  Add: [ -Wall, -Wextra,  -Isrc/server -Isrc/controllers ]
+
