@@ -1,106 +1,118 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+
+int id = 1;
 
 typedef struct {
     int id;
+    int price;
     char *name;
     char *url;
-    int price;
-} product_t;
+} Product;
 
 typedef struct {
-    product_t *items;
+    Product *items;
     int count;
 } ProductList;
 
 // 상품 리스트에 상품 추가.
-void add_item(ProductList *list, product_t new_item) {
+void add_item(ProductList *list, Product *new_item) {
     // 상품 리스트 추가하기 전에 Heap 메모리 사이즈 기존 사이즈보다 1 증가시켜주기.
-    product_t *temp = realloc(list->items, sizeof(product_t) * (list->count + 1));
+    Product *temp = realloc(list->items, sizeof(Product) * (list->count + 1));
     // realloc 실패시 NULL 이 반환되므로 검증
     if (temp) {
         list->items = temp;
-        list->items[list->count] = new_item;
+        list->items[list->count] = *new_item;
         list->count++;
     }
 }
 
-// 상품 목록 출력.
-void print_product_list(ProductList *list) {
-    // header
-    printf("|%5s|%50s|%50s|%10s|\n", "id", "name", "url", "price");
+void print_product(Product *p) {
+    printf("id: %d\n", p->id);
+    printf("name: %s", p->name);
+    printf("url: %s", p->url);
+    printf("price: %d\n", p->price);
+    printf("\n");
+}
 
-    // body
-    for (int i = 0; i < list->count; i++) {
-        printf("|%05d|%50s|%50s|%10d|\n",
-                list->items[i].id,
-                list->items[i].name,
-                list->items[i].url,
-                list->items[i].price
-                );
+void print_products(ProductList *list) {
+    for (int i=0; i<list->count; i++) {
+        print_product(&list->items[i]);
     }
     printf("\n");
 }
 
-void free_product_list(ProductList *list) {
-    printf("%d count of product will be freed.\n", list->count);
-    for (int i = 0; i < list->count; i++) {
-        free(list->items[i]);
-    }
+void print_menu() {
+    printf("명령어를 입력하세요.\n");
+    printf("1.조회\n");
+    printf("2.추가\n");
+    printf("3.삭제\n");
 }
 
-int main(int argc, char *argv[]) {
-    char input = '\0';
-    ProductList p_list = {
-        .items = NULL,
-        .count = 0
-    };
+void print_add_menu() {
+    printf("Enter name: ");
+    printf("Enter url: ");
+    printf("Enter price: ");
+}
 
-    printf("### MY WISHLIST Program. ###\n");
+int my_atoi(char *str) {
+    int result = 0;
+    while (*str) {
+        result += (result << 3) + (result << 1) + *str - '0';
+        str++;
+    }
+    return result;
+}
+
+enum Menu { LIST = 1, ADD, DELETE };
+
+int product_cnt = 0;
+
+int main(int argc, char *argv[]) {
+    ProductList *list = malloc(sizeof(ProductList));
+    list->count = 0;
 
     while (1) {
-        printf("\nEnter command (s: show, q: quit, i: init items): ");
+        print_menu();
 
-        // 앞에 한 칸 띈 " %c"는 이전의 사용자가 입력한 엔터를 무시함. 이 처리를 안하면 입력버퍼가 리셋되지 않아서 출력문이 두번 실행됨.
-        if (scanf(" %c", &input) != 1) continue;
+        int input;;
+        scanf("%d", &input);
+        getchar(); // \n 입력처리
 
-        if (input == 'q') { // quit
-            return 0;
-        } 
-        else if (input == 'i') { // init
-            p_list.items = (product_t *)malloc(sizeof(product_t));
-            product_t item = (product_t){
-                .id = 1,
-                .name = "APPLE WATCH STRAP (Black & Silver)",
-                .url = "https://worthwhilemovement.com/product/p5-6-2",
-                .price = 85000
-            };
-            add_item(&p_list, item);
+        switch (input) {
+            case LIST:
+                print_products(list);
+                break;
+            case ADD: {
+                Product *product = malloc(sizeof(Product));
+                printf("Enter name: ");
+                char *line = NULL;
+                size_t linecapp;
 
-            item = (product_t){
-                .id = 2,
-                .name = "Alpha 7 V - Full-frame Mirrorless Interchangeable Lens Camera",
-                .url = "https://www.sony.co.kr/electronics/interchangeable-lens-cameras/ilce-7m5",
-                .price = 3599000
-            };
-            add_item(&p_list, item);
+                product->id = id++;
+                getline(&line, &linecapp, stdin);
+                product->name = strdup(line);
 
-            item = (product_t){
-                .id = 3,
-                .name = "ThinkPad X1 Carbon Gen 13",
-                .url = "https://www.lenovo.com/kr/ko/p/laptops/thinkpad/thinkpadx1/thinkpad-x1-carbon-gen-13-aura-edition-14-inch-intel/21nxcto1wwkr4",
-                .price = 327003
-            };
-            add_item(&p_list, item);
+                printf("Enter url: ");
+                getline(&line, &linecapp, stdin);
+                product->url = strdup(line);
+
+                printf("Enter price: ");
+                getline(&line, &linecapp, stdin);
+                product->price = atoi(strdup(line));
+
+                add_item(list, product);
+                print_product(product);
+                printf("\n");
+
+                break;
+            }
+            case DELETE:
+                printf("DELETE\n");
+                break;
         }
-        else if (input == 's') { // show
-            print_product_list(&p_list);
-        }
-
-        free_product_list(&p_list);
-
-        printf("\n");
     }
 
     return 0;
